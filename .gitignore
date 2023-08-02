@@ -2,13 +2,6 @@ UdemyMicroservices/Services/Catalog/bin
 UdemyMicroservices/Services/Catalog/obj
 UdemyMicroservices/Shared/FreeCourse.Shared/bin
 UdemyMicroservices/Shared/FreeCourse.Shared/obj
-UdemyMicroservices/.vs
-# Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-x64/
-build/
-bld/
-[Bb]in/
-[Oo]bj/
+
+UdemyMicroservices/Services/Catalog/FreeCourse.Services.Catalog/bin
+UdemyMicroservices/Services/Catalog/FreeCourse.Services.Catalog/obj
