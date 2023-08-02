@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "pwyK8/X2FhdZfynCeCONLoo6uT0iV1UxxUvQEko11jNwm2a0HR0OhkctTYhggrPwCACV3nO6Jj4fas2Js9g4MA==",
+  "dgSpecHash": "2oH5Z65/aJbcPo8xv4unT93a16aOPfHb+8v7D8KNgbI6idUDmfoj9ti4jeKAhHfcNgvcAssSPKlGA6v/4b9MAA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Muhammed\\source\\repos\\UdemyMicroservices\\Services\\Catalog\\FreeCourse.Services.Catalog\\FreeCourse.Services.Catalog.csproj",
+  "projectFilePath": "C:\\Users\\Muhammed\\Documents\\GitHub\\Microservices-with-.Net\\UdemyMicroservices\\Services\\Catalog\\FreeCourse.Services.Catalog\\FreeCourse.Services.Catalog.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Muhammed\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Muhammed\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

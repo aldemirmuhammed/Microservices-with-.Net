@@ -462,6 +462,16 @@
         "runtime": {
           "lib/net5.0/ZstdSharp.dll": {}
         }
+      },
+      "FreeCourse.Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/FreeCourse.Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FreeCourse.Shared.dll": {}
+        }
       }
     }
   },
@@ -1423,11 +1433,17 @@
         "zstdsharp.port.0.6.2.nupkg.sha512",
         "zstdsharp.port.nuspec"
       ]
+    },
+    "FreeCourse.Shared/1.0.0": {
+      "type": "project",
+      "path": "../../../Shared/FreeCourse.Shared/FreeCourse.Shared.csproj",
+      "msbuildProject": "../../../Shared/FreeCourse.Shared/FreeCourse.Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 12.0.1",
+      "FreeCourse.Shared >= 1.0.0",
       "MongoDB.Driver >= 2.20.0",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
@@ -1439,11 +1455,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Muhammed\\source\\repos\\UdemyMicroservices\\Services\\Catalog\\FreeCourse.Services.Catalog\\FreeCourse.Services.Catalog.csproj",
+      "projectUniqueName": "C:\\Users\\Muhammed\\Documents\\GitHub\\Microservices-with-.Net\\UdemyMicroservices\\Services\\Catalog\\FreeCourse.Services.Catalog\\FreeCourse.Services.Catalog.csproj",
       "projectName": "FreeCourse.Services.Catalog",
-      "projectPath": "C:\\Users\\Muhammed\\source\\repos\\UdemyMicroservices\\Services\\Catalog\\FreeCourse.Services.Catalog\\FreeCourse.Services.Catalog.csproj",
+      "projectPath": "C:\\Users\\Muhammed\\Documents\\GitHub\\Microservices-with-.Net\\UdemyMicroservices\\Services\\Catalog\\FreeCourse.Services.Catalog\\FreeCourse.Services.Catalog.csproj",
       "packagesPath": "C:\\Users\\Muhammed\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Muhammed\\source\\repos\\UdemyMicroservices\\Services\\Catalog\\FreeCourse.Services.Catalog\\obj\\",
+      "outputPath": "C:\\Users\\Muhammed\\Documents\\GitHub\\Microservices-with-.Net\\UdemyMicroservices\\Services\\Catalog\\FreeCourse.Services.Catalog\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "E:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1465,7 +1481,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Muhammed\\Documents\\GitHub\\Microservices-with-.Net\\UdemyMicroservices\\Shared\\FreeCourse.Shared\\FreeCourse.Shared.csproj": {
+              "projectPath": "C:\\Users\\Muhammed\\Documents\\GitHub\\Microservices-with-.Net\\UdemyMicroservices\\Shared\\FreeCourse.Shared\\FreeCourse.Shared.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
