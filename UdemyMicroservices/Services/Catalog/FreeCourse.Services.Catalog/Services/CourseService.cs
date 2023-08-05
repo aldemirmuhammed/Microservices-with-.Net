@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FreeCourse.Services.Catalog.Services
 {
-    internal class CourseService
+    public class CourseService : ICourseServices
     {
 
 
@@ -24,10 +24,10 @@ namespace FreeCourse.Services.Catalog.Services
         {
             var client = new MongoClient(databaseSettings.ConnectionString);
 
-            var database = client.GetDatabase(databaseSettings.DatabseName);
-            _courseCollection = database.GetCollection<Course>(databaseSettings.CourseCatologName);
-            _categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCatologName);
-            this._mapper = mapper;
+            var database = client.GetDatabase(databaseSettings.DatabaseName);
+            _courseCollection = database.GetCollection<Course>(databaseSettings.CourseCollectionName);
+            _categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCollectionName);
+            _mapper = mapper;
         }
 
 
@@ -87,8 +87,6 @@ namespace FreeCourse.Services.Catalog.Services
             }
 
             return Response<List<CourseDto>>.Success(_mapper.Map<List<CourseDto>>(courses), 200);
-
-
         }
 
 
@@ -110,12 +108,26 @@ namespace FreeCourse.Services.Catalog.Services
 
             var result = await _courseCollection.FindOneAndReplaceAsync(x => x.Id == courseUpdateDto.Id, updateCourse);
 
-            if(result==null)
+            if (result == null)
                 return Response<NoContent>.Fail("Course not found", 404);
 
             return Response<NoContent>.Success(204);
 
         }
+
+        public async Task<Response<NoContent>> DeleteAsync(string id)
+        {
+
+            var result = await _courseCollection.DeleteOneAsync(x => x.Id == id);
+
+            if (result.DeletedCount > 0)
+                return Response<NoContent>.Success(204);
+            else
+                return Response<NoContent>.Fail("Course not found", 404);
+
+
+        }
+
 
 
     }
