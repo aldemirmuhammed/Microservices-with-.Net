@@ -1,5 +1,6 @@
-using FreeCourse.Services.Catalog.Services;
-using FreeCourse.Services.Catalog.Settings;
+using FreeCourse.Services.Catalog.Services.Interfaces;
+using FreeCourse.Services.Catalog.Services.Services;
+using FreeCourse.Services.Catalog.Settings.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FreeCourse.Services.Catalog.Dtos;
-using FreeCourse.Services.Catalog.Models;
+using FreeCourse.Services.Catalog.Models.Categories;
+using FreeCourse.Services.Catalog.Models.Courses;
+using FreeCourse.Services.Catalog.Models.Features;
 
 namespace FreeCourse.Services.Catalog.Mapping
 {

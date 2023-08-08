@@ -3,7 +3,7 @@ using FreeCourse.Shared.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FreeCourse.Services.Catalog.Services
+namespace FreeCourse.Services.Catalog.Services.Interfaces
 {
     public interface ICourseServices
     {
