@@ -1,2 +1,4 @@
 Services
--Catalog=>http://localhost:5011
+	-CatalogAPI=>5011
+	-PhotoStockAPI=>5012
+IdentityServer=>5001
