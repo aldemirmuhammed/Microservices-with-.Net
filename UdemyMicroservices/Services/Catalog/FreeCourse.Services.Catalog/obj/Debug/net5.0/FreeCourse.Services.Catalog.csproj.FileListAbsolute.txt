@@ -104,3 +104,10 @@ C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Se
 C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\obj\Debug\net5.0\FreeCourse.Services.Catalog.pdb
 C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\obj\Debug\net5.0\FreeCourse.Services.Catalog.genruntimeconfig.cache
 C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\obj\Debug\net5.0\ref\FreeCourse.Services.Catalog.dll
+C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Muhammed\Documents\GitHub\Microservices-with-.Net\UdemyMicroservices\Services\Catalog\FreeCourse.Services.Catalog\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
