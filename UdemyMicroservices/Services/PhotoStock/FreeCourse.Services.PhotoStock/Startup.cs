@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +28,19 @@ namespace FreeCourse.Services.PhotoStock
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+
+            // for protect jwt token
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.Authority = Configuration["IdentityServerURL"];
+                options.Audience = "photo_stock_catalog";
+                options.RequireHttpsMetadata = false;
+            });
+
+            // Add authorize to all controller 
+            services.AddControllers(opt =>
+                opt.Filters.Add(new AuthorizeFilter())
+            );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FreeCourse.Services.PhotoStock", Version = "v1" });
@@ -45,7 +59,7 @@ namespace FreeCourse.Services.PhotoStock
 
             app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

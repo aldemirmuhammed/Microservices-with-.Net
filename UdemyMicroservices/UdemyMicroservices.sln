@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{7930A8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{BDC0EA07-8A7B-4CB2-AF4A-2BAE06816FC7}"
 	ProjectSection(SolutionItems) = preProject
-		Services\Catalog\FreeCourse.Services.Catalog\Port.txt = Services\Catalog\FreeCourse.Services.Catalog\Port.txt
+		SolutionItems\Port.txt = SolutionItems\Port.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeCourse.Shared", "Shared\FreeCourse.Shared\FreeCourse.Shared.csproj", "{11CF8B6F-A3CF-4785-9C3B-521CC2A64AE3}"
