@@ -6,3 +6,6 @@ UdemyMicroservices/.vs
 
 UdemyMicroservices/Services/Catalog/FreeCourse.Services.Catalog/bin
 UdemyMicroservices/Services/Catalog/FreeCourse.Services.Catalog/obj
+*.cache
+*/bin
+*/obj
