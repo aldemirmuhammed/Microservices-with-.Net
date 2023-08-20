@@ -30,6 +30,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{30A38F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeCourse.Services.Basket", "Services\Basket\FreeCourse.Services.Basket\FreeCourse.Services.Basket.csproj", "{3A3914BB-416F-4C6D-B412-7FDCB8FD7F3B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Discount", "Discount", "{205B2D1C-EF32-46B1-A692-88737071AA4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeCourse.Services.Discount", "Services\Discount\FreeCourse.Services.Discount\FreeCourse.Services.Discount.csproj", "{DE6A1A0F-D0B0-4126-9954-4ABD6148BAFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +60,10 @@ Global
 		{3A3914BB-416F-4C6D-B412-7FDCB8FD7F3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A3914BB-416F-4C6D-B412-7FDCB8FD7F3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A3914BB-416F-4C6D-B412-7FDCB8FD7F3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE6A1A0F-D0B0-4126-9954-4ABD6148BAFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE6A1A0F-D0B0-4126-9954-4ABD6148BAFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE6A1A0F-D0B0-4126-9954-4ABD6148BAFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE6A1A0F-D0B0-4126-9954-4ABD6148BAFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +77,8 @@ Global
 		{8105ECF0-D794-4CBE-B06C-3D9105487ED7} = {1C462E2F-5190-46A6-A96F-50F46AEE4D7E}
 		{30A38F57-20E5-4D61-A120-903E0C44C6DB} = {CC91069C-830B-488D-82AE-2B62251DDE8B}
 		{3A3914BB-416F-4C6D-B412-7FDCB8FD7F3B} = {30A38F57-20E5-4D61-A120-903E0C44C6DB}
+		{205B2D1C-EF32-46B1-A692-88737071AA4F} = {CC91069C-830B-488D-82AE-2B62251DDE8B}
+		{DE6A1A0F-D0B0-4126-9954-4ABD6148BAFD} = {205B2D1C-EF32-46B1-A692-88737071AA4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3B8C007-FA5E-4BC7-8BFA-838CCF6B7BED}
