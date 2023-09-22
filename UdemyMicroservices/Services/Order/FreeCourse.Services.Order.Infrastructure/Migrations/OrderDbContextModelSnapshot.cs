@@ -75,7 +75,7 @@ namespace FreeCourse.Services.Order.Infrastructure.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                            b1.Property<string>("Distinct")
+                            b1.Property<string>("District")
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("Line")

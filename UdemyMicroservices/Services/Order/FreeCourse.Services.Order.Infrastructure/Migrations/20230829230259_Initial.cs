@@ -19,7 +19,7 @@ namespace FreeCourse.Services.Order.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address_Province = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address_Distinct = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address_District = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address_Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address_ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address_Line = table.Column<string>(type: "nvarchar(max)", nullable: true),

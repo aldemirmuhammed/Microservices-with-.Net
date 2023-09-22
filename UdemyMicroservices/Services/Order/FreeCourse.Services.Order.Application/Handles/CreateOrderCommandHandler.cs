@@ -25,18 +25,26 @@ namespace FreeCourse.Services.Order.Application.Handles
 
         public async Task<Response<CreatedOrderDto>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var newAddress = new Address(request.Address.Province, request.Address.Distinct, request.Address.Street, request.Address.ZipCode, request.Address.Line);
-
-            Domain.OrderAggregate.Order newOrder = new Domain.OrderAggregate.Order(request.BuyerId, newAddress);
-
-            request.OrderItems.ForEach(x =>
+            try
             {
-                newOrder.AddOrderItem(x.ProductId, x.ProductName, x.Price, x.PictureUrl);
-            });
-            _context.Orders.AddAsync(newOrder);
+                var newAddress = new Address(request.Address.Province, request.Address.District, request.Address.Street, request.Address.ZipCode, request.Address.Line);
 
-            await _context.SaveChangesAsync();
-            return Response<CreatedOrderDto>.Success(new CreatedOrderDto { OrderId = newOrder.Id }, 200);
+                Domain.OrderAggregate.Order newOrder = new Domain.OrderAggregate.Order(request.BuyerId, newAddress);
+
+                request.OrderItems.ForEach(x =>
+                {
+                    newOrder.AddOrderItem(x.ProductId, x.ProductName, x.Price, x.PictureUrl);
+                });
+                await _context.Orders.AddAsync(newOrder);
+
+                await _context.SaveChangesAsync();
+                return Response<CreatedOrderDto>.Success(new CreatedOrderDto { OrderId = newOrder.Id }, 200);
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }
