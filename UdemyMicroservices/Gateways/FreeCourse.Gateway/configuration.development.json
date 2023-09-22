@@ -95,8 +95,12 @@
         }
       ],
       "UpstreamPathTemplate": "/services/fakepayment/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "UpstreamScheme": "http",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationSchema",
+        "AllowedScopes": [ "payment_fullpermission" ]
+      }
     }
   ],
   "GlobalConfiguration": {

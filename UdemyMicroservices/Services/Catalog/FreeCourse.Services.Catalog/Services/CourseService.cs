@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FreeCourse.Services.Catalog.Services.Services
+namespace FreeCourse.Services.Catalog.Services
 {
     public class CourseService : ICourseServices
     {
@@ -66,12 +66,12 @@ namespace FreeCourse.Services.Catalog.Services.Services
 
         public async Task<Response<List<CourseDto>>> GetAllByUserIdAsync(string userId)
         {
-            var courses = await _courseCollection.Find(x => x.UserId == userId).ToListAsync();
+            var courses = await _courseCollection.Find<Course>(x => x.UserId == userId).ToListAsync();
             if (courses.Any())
             {
                 foreach (var course in courses)
                 {
-                    course.Category = await _categoryCollection.Find(x => x.Id == course.CategoryId).FirstAsync();
+                    course.Category = await _categoryCollection.Find<Category>(x => x.Id == course.CategoryId).FirstAsync();
                 }
             }
             else

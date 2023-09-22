@@ -12,7 +12,7 @@ namespace FreeCourse.Services.Catalog.Dtos
         public string Name { get; set; }
 
 
-        public string Price { get; set; }
+        public decimal Price { get; set; }
 
 
         public string Description { get; set; }
@@ -25,13 +25,13 @@ namespace FreeCourse.Services.Catalog.Dtos
 
         public DateTime CreatedTime { get; set; }
 
-        public FeatureDto FeatureDto { get; set; }
+        public FeatureDto Feature { get; set; }
 
 
         public string CategoryId { get; set; }
 
 
-        public CategoryDto CategoryDto { get; set; }
+        public CategoryDto Category { get; set; }
 
     }
 }

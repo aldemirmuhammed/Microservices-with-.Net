@@ -14,7 +14,7 @@ namespace FreeCourse.Services.Basket.Controllers
     {
 
         private readonly IBasketService _basketService;
-        private readonly ISharedIdentityService _sharedIdentityService ;
+        private readonly ISharedIdentityService _sharedIdentityService;
 
         public BasketsController(IBasketService basketService, ISharedIdentityService sharedIdentityService)
         {
@@ -33,8 +33,9 @@ namespace FreeCourse.Services.Basket.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveOrUpdateBasket(BasketDto basketDto)
         {
-            var response = await _basketService.SaveOrUpdate(basketDto);
+            basketDto.UserId = _sharedIdentityService.GetUserId;
 
+            var response = await _basketService.SaveOrUpdate(basketDto);
             return CreateActionResultInstance(response);
         }
 

@@ -1,5 +1,5 @@
+using FreeCourse.Services.Catalog.Services;
 using FreeCourse.Services.Catalog.Services.Interfaces;
-using FreeCourse.Services.Catalog.Services.Services;
 using FreeCourse.Services.Catalog.Settings.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
