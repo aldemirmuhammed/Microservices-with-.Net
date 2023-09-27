@@ -69,9 +69,9 @@ namespace FreeCourse.IdentityServer
                     ClientSecrets={ new Secret("secret".Sha256()) },
                     AllowedGrantTypes =GrantTypes.ResourceOwnerPassword,
                     AllowedScopes={"basket_fullpermission"
-                            ,"discount_fullpermission"
+                            //,"discount_fullpermission"
                             ,"order_fullpermission"
-                            ,"payment_fullpermission"
+                            //,"payment_fullpermission"
                             ,"gateway_fullpermission",
                             IdentityServerConstants.StandardScopes.Email,
                             IdentityServerConstants.StandardScopes.OpenId,
@@ -89,7 +89,22 @@ namespace FreeCourse.IdentityServer
                     
                         // It can be re use
                     RefreshTokenUsage = TokenUsage.ReUse
-                }
+                },
+
+                new Client
+                {
+                    ClientName = "Token Exchange Client",
+                    ClientId = "TokenExchangeClient",
+                    ClientSecrets={ new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = new []{"urn:ietf:params:oauth:grant-type:token-exchange" },
+                    AllowedScopes={ 
+                        "discount_fullpermission"
+                       ,"payment_fullpermission"
+                        ,IdentityServerConstants.StandardScopes.OpenId
+
+                    }
+
+                },
             };
     }
 }

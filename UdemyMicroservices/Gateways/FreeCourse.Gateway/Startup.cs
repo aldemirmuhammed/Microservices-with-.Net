@@ -1,9 +1,11 @@
+using FreeCourse.Gateway.DelegateHandlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System;
@@ -28,14 +30,14 @@ namespace FreeCourse.Gateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddHttpClient<TokenExchangeDelegateHandler>();
             services.AddAuthentication().AddJwtBearer("GatewayAuthenticationSchema", options =>
             {
                 options.Authority = Configuration["IdentityServerURL"];
                 options.Audience = "resource_gateway";
                 options.RequireHttpsMetadata = false;
             });
-            services.AddOcelot();
+            services.AddOcelot().AddDelegatingHandler<TokenExchangeDelegateHandler>();
 
         }
 
