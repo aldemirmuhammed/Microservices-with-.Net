@@ -52,6 +52,8 @@ namespace FreeCourse.Services.Basket
                     {
                         e.ConfigureConsumer<CourseNameChangedEventConsumer>(context);
                     });
+                    cfg.ConfigureEndpoints(context);
+
                 });
             });
           
