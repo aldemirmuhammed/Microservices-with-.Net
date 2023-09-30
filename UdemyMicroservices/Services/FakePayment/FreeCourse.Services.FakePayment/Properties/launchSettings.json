@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "FreeCource.Services.FakePayment": {
+    "FreeCourse.Services.FakePayment": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

@@ -1,4 +1,4 @@
-﻿namespace FreeCource.Services.FakePayment.Models
+﻿namespace FreeCourse.Services.FakePayment.Models
 {
     public class PaymentDto
     {

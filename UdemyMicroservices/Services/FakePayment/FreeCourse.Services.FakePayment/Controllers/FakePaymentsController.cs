@@ -1,4 +1,4 @@
-﻿using FreeCource.Services.FakePayment.Models;
+﻿using FreeCourse.Services.FakePayment.Models;
 using FreeCourse.Shared.ControllerBases;
 using FreeCourse.Shared.Dtos;
 using FreeCourse.Shared.Messages;
@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Writers;
 using System;
 using System.Threading.Tasks;
 
-namespace FreeCource.Services.FakePayment.Controllers
+namespace FreeCourse.Services.FakePayment.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
