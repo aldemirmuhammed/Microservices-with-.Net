@@ -16,7 +16,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FreeCource.Services.FakePayment
+namespace FreeCourse.Services.FakePayment
 {
     public class Startup
     {
@@ -61,7 +61,7 @@ namespace FreeCource.Services.FakePayment
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FreeCource.Services.FakePayment", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FreeCourse.Services.FakePayment", Version = "v1" });
             });
         }
 
@@ -72,7 +72,7 @@ namespace FreeCource.Services.FakePayment
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FreeCource.Services.FakePayment v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FreeCourse.Services.FakePayment v1"));
             }
 
             app.UseRouting();
