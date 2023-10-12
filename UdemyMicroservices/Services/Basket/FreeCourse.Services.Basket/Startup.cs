@@ -52,11 +52,13 @@ namespace FreeCourse.Services.Basket
                     {
                         e.ConfigureConsumer<CourseNameChangedEventConsumer>(context);
                     });
-                    cfg.ConfigureEndpoints(context);
 
                 });
             });
-          
+
+            services.AddScoped<CourseNameChangedEventConsumer>();
+            services.AddMassTransitHostedService();
+
 
             var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
@@ -73,8 +75,7 @@ namespace FreeCourse.Services.Basket
             services.AddScoped<ISharedIdentityService, SharedIdentityService>();
             services.AddScoped<IBasketService, BasketService>();
 
-            services.AddScoped<CourseNameChangedEventConsumer>();
-            services.AddMassTransitHostedService();
+           
 
 
             services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
