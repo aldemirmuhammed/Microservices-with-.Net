@@ -10,3 +10,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim as runtime
 WORKDIR /app
 COPY --from=build /app/out .
 ENTRYPOINT [ "dotnet","FreeCourse.Web.dll" ]
+
+
+

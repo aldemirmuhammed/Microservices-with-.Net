@@ -75,6 +75,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityServerURL=http://identityserver.api
+      - RabbitMQUrl=rabbitmq
       - RedisSettings:Port=6379
       - RedisSettings:Host=basketdb
     ports:
@@ -135,7 +136,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ServiceApiSettings:IdentityBaseUri=http://identityserver.api
       - ServiceApiSettings:GatewayBaseUri=http://gateway.api
-
     ports:
       - "5010:80"
     depends_on:
