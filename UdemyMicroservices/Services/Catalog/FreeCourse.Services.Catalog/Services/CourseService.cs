@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace FreeCourse.Services.Catalog.Services
 {
-    public class CourseService : ICourseServices
+    public class CourseService : ICourseService
     {
 
 

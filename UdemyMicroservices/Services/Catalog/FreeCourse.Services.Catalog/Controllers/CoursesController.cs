@@ -11,8 +11,8 @@ namespace FreeCourse.Services.Catalog.Controllers
     [ApiController]
     public class CoursesController : CustomBaseController
     {
-        private readonly ICourseServices _courseService;
-        public CoursesController(ICourseServices courseServices)
+        private readonly ICourseService _courseService;
+        public CoursesController(ICourseService courseServices)
         {
             _courseService = courseServices;
         }

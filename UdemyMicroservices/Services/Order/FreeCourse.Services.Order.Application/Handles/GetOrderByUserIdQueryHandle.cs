@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FreeCourse.Services.Order.Application.Handles
+namespace FreeCourse.Services.Order.Application.Handlers
 {
     public class GetOrderByUserIdQueryHandle : IRequestHandler<GetOrdersByUserIdQuery, Response<List<OrderDto>>>
     {
