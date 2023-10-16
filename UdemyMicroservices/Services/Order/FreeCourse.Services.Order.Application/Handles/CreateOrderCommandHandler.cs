@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FreeCourse.Services.Order.Application.Handles
+namespace FreeCourse.Services.Order.Application.Handlers
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Response<CreatedOrderDto>>
     {
