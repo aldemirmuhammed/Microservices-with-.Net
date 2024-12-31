@@ -1,3 +1,4 @@
+using FreeCourse.EventBus.Messages.Common;
 using FreeCourse.Services.Order.Application.Consumers;
 using FreeCourse.Services.Order.Infrastructure;
 using FreeCourse.Shared.Services;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using static MassTransit.MessageHeaders;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -27,10 +29,6 @@ builder.Services.AddControllers(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
-
-
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -39,6 +37,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     options.RequireHttpsMetadata = false;
 });
 
+#region Database
+
+// Sql Server Database
 builder.Services.AddDbContext<OrderDbContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), configure =>
@@ -47,17 +48,16 @@ builder.Services.AddDbContext<OrderDbContext>(opt =>
     });
 });
 
+#endregion
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
 builder.Services.AddMediatR(typeof(FreeCourse.Services.Order.Application.Handlers.CreateOrderCommandHandler).Assembly);
 
+#region RabbitMq
 
-
-
-
-
-
+// Message queue
 builder.Services.AddMassTransit(x =>
 {
 
@@ -72,18 +72,18 @@ builder.Services.AddMassTransit(x =>
             host.Password("guest");
         });
 
-        cfg.ReceiveEndpoint("create-order-service", e =>
+        cfg.ReceiveEndpoint(EventBusConstants.CreateOrderQueue, e =>
         {
             e.ConfigureConsumer<CreateOrderMessageCommandConsumer>(context);
         });
-        cfg.ReceiveEndpoint("course-name-changed-event-order-service", e =>
+        cfg.ReceiveEndpoint(EventBusConstants.CourseNameChangedEventOrder, e =>
         {
             e.ConfigureConsumer<CourseNameChangedEventConsumer>(context);
         });
     });
 });
 
-
+#endregion
 
 
 
@@ -93,8 +93,10 @@ using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
     var orderDbContext = serviceProvider.GetRequiredService<OrderDbContext>();
-    orderDbContext.Database.Migrate();
-
+    if (!orderDbContext.Database.GetAppliedMigrations().SequenceEqual(orderDbContext.Database.GetMigrations()))
+    {
+        await orderDbContext.Database.MigrateAsync();
+    }
 }
 
 

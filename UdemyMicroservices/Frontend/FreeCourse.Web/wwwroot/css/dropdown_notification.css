@@ -1,0 +1,23 @@
+﻿.notificationContainer {
+    background-color: #fff;
+    width: auto;
+    border-color: black;
+    border: groove;
+}
+
+.notificationCard {
+    display: flex;
+    align-items: center;
+}
+
+    .notificationCard .description {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+.unread {
+    background-color: rgb(251, 201, 210);
+}
+
+

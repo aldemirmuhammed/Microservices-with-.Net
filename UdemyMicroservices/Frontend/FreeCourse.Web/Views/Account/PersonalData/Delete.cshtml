@@ -1,0 +1,42 @@
+﻿@using FreeCourse.Web.Models.Account
+@using FreeCourse.Web.Views.Account;
+@using FreeCourse.Web.Models.Account.PersonalData
+@model DeletePersonalDataViewModel
+@{
+    ViewData["Title"] = "Delete Personal Data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h4>@ViewData["Title"]</h4>
+
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                <form id="delete-user" asp-action="Delete" asp-controller="PersonalData" method="post" class="form-group">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    @if (TempData["RequirePassword"] != null && (bool)TempData["RequirePassword"])
+                    {
+                        <div class="form-group mb-3">
+                            <label asp-for="Password"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    }
+                    <button class="btn btn-danger btn-block mb-3" type="submit">Delete data and close my account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

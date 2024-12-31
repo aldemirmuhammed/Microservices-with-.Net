@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,17 +21,17 @@ namespace FreeCourse.IdentityServer.Controllers
     {
 
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public UserController(UserManager<ApplicationUser> userManager)
+        private readonly SignInManager<IdentityUser> _signInManager;
+        public UserController(UserManager<ApplicationUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
 
         [HttpPost]
         public async Task<IActionResult> SignUp(SignupDto signupDto)
         {
-
             var user = new ApplicationUser
             {
                 UserName = signupDto.UserName,
@@ -55,7 +56,19 @@ namespace FreeCourse.IdentityServer.Controllers
             var user = await _userManager.FindByIdAsync(userIdClaim.Value);
             if (user == null) return BadRequest();
 
-            return Ok(new {Id=user.Id,UserName=user.UserName,Email = user.Email,City = user.City});
+            return Ok(new { Id = user.Id, UserName = user.UserName, Email = user.Email, City = user.City });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUser()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            if (users == null) return BadRequest();
+
+            return Ok(users);
+        }
+
+
+     
     }
 }

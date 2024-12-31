@@ -5,7 +5,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "catalog.api",
+          "Host": "microservicenet.catalog.api",
           "Port": 80
         }
       ],
@@ -22,7 +22,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "photostock.api",
+          "Host": "microservicenet.photostock.api",
           "Port": 80
         }
       ],
@@ -39,7 +39,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "basket.api",
+          "Host": "microservicenet.basket.api",
           "Port": 80
         }
       ],
@@ -56,7 +56,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "discount.api",
+          "Host": "microservicenet.discount.api",
           "Port": 80
         }
       ],
@@ -73,7 +73,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "order.api",
+          "Host": "microservicenet.order.api",
           "Port": 80
         }
       ],
@@ -90,7 +90,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "fakepayment.api",
+          "Host": "microservicenet.fakepayment.api",
           "Port": 80
         }
       ],
@@ -101,9 +101,26 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "GatewayAuthenticationSchema"
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "microservicenet.notification.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/services/notification/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "UpstreamScheme": "http",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationSchema",
+        "AllowedScopes": [ "notification_fullpermission" ]
+      }
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://gateway.api"
+    "BaseUrl": "http://microservicenet.gateway.api"
   }
 }

@@ -1,0 +1,120 @@
+﻿@using FreeCourse.Web.Models.Catalogs.Course.CourseComment
+@using FreeCourse.Web.Models.Catalogs.Course.CourseUser
+@using FreeCourse.Web.Services.Interfaces
+@inject IIdentityService _identityService;
+@model CourseViewModel;
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/Rating/starrr.css" />
+
+    <link href="~/css/comment_post.css" rel="stylesheet" />
+</head>
+
+<div class="row d-flex justify-content-center" style="margin-top:10px">
+    <div class="card col-md-12 shadow-0 border">
+        <div class="card-body p-4" style="width:auto">
+            <div class="d-flex justify-content-between">
+
+                <div style="width:50%;border-right:1px solid;">
+                    @{
+                        var user = await _identityService.GetUserProfileAsync(Model.UserId);
+                        var mapUser = new CourseUserViewModel
+                        {
+                            City = user.Data.City,
+                            Email = user.Data.Email,
+                            FirstName = user.Data.FirstName,
+                            Id = user.Data.Id,
+                            LastName = user.Data.LastName,
+                            PhoneNumber = user.Data.PhoneNumber,
+                            ProfilePicture = user.Data.ProfilePicture,
+                            UserName = user.Data.UserName
+                        };
+                    }
+                    @await Html.PartialAsync("~/Views/Courses/CommentCreate.cshtml", new CourseCommentViewModel { CourseId = Model.Id, User = mapUser })
+                </div>
+
+                <div style="width:auto">
+                    @if (Model != null && Model.CourseCommentList != null && Model.CourseCommentList.Any())
+                    {
+                        foreach (var item in Model.CourseCommentList)
+                        {
+                            <div class="card" style="margin-bottom:10px;width:auto">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <img class="rounded-circle shadow-1-strong me-3"
+                                                 src="data:image/*;base64,@(Convert.ToBase64String(item.User.ProfilePicture))" alt="avatar" width="40" height="40" />
+
+                                        </div>
+                                        <div class="row">
+                                            <p class="small mb-0 ms-2">@item.User.UserName</p>
+                                            <div>
+                                                @if (item.CourseRate > 0)
+                                                {
+                                                    @for (int i = 0; i < Convert.ToInt16(@item.CourseRate); i++)
+                                                    {
+                                                        <span><i class="fa-solid fa-star" style="color: #FFD43B;"></i></span>
+                                                    }
+                                                    @for (int i = Convert.ToInt16(@item.CourseRate); i < 5; i++)
+                                                    {
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @for (int i = 0; i < 5; i++)
+                                                    {
+                                                        <span disabled="disabled"><i class="fa-regular fa-star"></i></span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center">
+                                            <p class="small mb-0 ms-2">@item.CreatedTime.ToString("dd/MM/yyyy hh:mm")</p>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:10px">
+                                        <p>@item.CommentDescription</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+
+                                        <div class="d-flex flex-row align-items-center">
+
+                                            <a asp-action="LikeComment" asp-controller="Courses" asp-route-commentId="@item.Id" asp-route-courseId="@item.CourseId">
+                                                <i class="fa-solid fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
+                                            </a>
+                                            <p class="small text-muted mb-0">(@item.Like.Count)</p>
+
+                                            <a asp-action="DislikeComment" asp-controller="Courses" asp-route-commentId="@item.Id" asp-route-courseId="@item.CourseId">
+                                                <i class="fa-solid fa-thumbs-down mx-2 fa-xs text-black" style="margin-top: -0.16rem;"> </i>
+                                            </a>
+                                            <p class="small text-muted mb-0">(@item.Dislike.Count)</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="notification">
+                            <div class="text">
+                                <div class="text-top">
+                                    <p>
+                                        No Comment
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

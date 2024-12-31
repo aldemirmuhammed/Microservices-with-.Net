@@ -1,0 +1,26 @@
+﻿@using FreeCourse.Web.Models.Catalogs.Course.CourseComment
+@using FreeCourse.Web.Models.Catalogs.Course.CourseQuestion
+@using FreeCourse.Web.Services.Interfaces
+@model CourseQuestionViewModel;
+
+
+@if (Model != null && Model.CourseId != null)
+{
+    <form asp-controller="Courses" asp-action="QuestionCreate" method="post" enctype="multipart/form-data">
+
+
+        <div class="panel">
+            <div class="panel-body">
+                <h6 class="pull-left">New Question</h6>
+
+                <textarea class="form-control" rows="1" asp-for="QuestionTitle" placeholder="Question title" style="margin-bottom:10px"></textarea>
+                <input asp-for="CourseId" class="form-control" style="display:none" rows="4" />
+                <textarea class="form-control" rows="2" asp-for="QuestionDescription" placeholder="What is your question?"></textarea>
+                <div class="mar-top clearfix">
+                    <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Share</button>
+                  
+                </div>
+            </div>
+        </div>
+    </form>
+}

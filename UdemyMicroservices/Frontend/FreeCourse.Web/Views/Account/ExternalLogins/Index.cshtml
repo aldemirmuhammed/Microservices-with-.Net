@@ -1,0 +1,76 @@
+﻿@using FreeCourse.Web.Models.Account.ExternalLogins
+@using FreeCourse.Web.Views.Account
+@model ExternalLoginsViewModel
+@{
+    ViewData["Title"] = "Manage your external logins";
+    ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
+}
+@if (TempData["ExternalLoginsStatus"] != null)
+{
+    var aa = TempData["ExternalLoginsStatus"];
+    <partial name="~/Views/Account/_StatusMessage.cshtml" for="@aa" />
+}
+@if (Model != null)
+{
+    <h4>Registered Logins</h4>
+
+    @if (Model.CurrentLogins != null && Model.CurrentLogins?.Count > 0)
+    {
+        <table class="table">
+            <tbody>
+                @foreach (var login in Model.CurrentLogins)
+                {
+                    <tr>
+                        <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName</td>
+                        <td>
+                            @if (Model.ShowRemoveButton)
+                            {
+                                <form id="@($"remove-login-{login.LoginProvider}")" asp-controller="ExternalLogins" asp-action="RemoveLogin" method="post">
+                                    <div>
+                                        <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
+                                        <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
+                                        <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">Remove</button>
+                                    </div>
+                                </form>
+                            }
+                            else
+                            {
+                                @: &nbsp;
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">Current logins null</div>
+    }
+
+    <h4>Add another service to log in.</h4>
+    <hr />
+    @if (Model.OtherLogins != null && Model.OtherLogins?.Count > 0)
+    {
+
+        <form id="link-login-form" asp-controller="ExternalLogins" asp-action="LinkLogin" method="post" class="form-horizontal">
+            <div id="socialLoginList">
+                <p>
+                    @foreach (var provider in Model.OtherLogins)
+                    {
+                        <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    }
+                </p>
+            </div>
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-info">Others logins null</div>
+    }
+}
+else
+{
+    <div class="alert alert-info">Others logins and current logins null</div>
+}

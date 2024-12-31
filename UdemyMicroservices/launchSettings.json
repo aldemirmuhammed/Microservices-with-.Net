@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "freecourse.web": "StartDebugging",
+        "freecourse.services.basket": "StartDebugging",
+        "freecourse.services.catalog": "StartDebugging",
+        "freecourse.services.discount": "StartDebugging",
+        "freecourse.services.fakepayment": "StartDebugging",
+        "freecourse.services.order.api": "StartDebugging",
+        "freecourse.services.photostock": "StartDebugging"
+      }
+    }
+  }
+}

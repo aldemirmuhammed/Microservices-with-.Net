@@ -1,4 +1,15 @@
-﻿﻿
+﻿@using FreeCourse.Web.Models.Notifications
+@using FreeCourse.Web.Services.Interfaces
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration _config;
+@inject INotificationService _INotificationService;
+@inject IRoleManagerService _iRoleManagerService;
+@inject IIdentityService _identityService;
+@section Scripts
+{
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+}﻿
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,64 +18,242 @@
     <title>@ViewData["Title"] - FreeCourse.Web</title>
     <link href="~/lib/bootstrap-5.0.2-dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/dropdown_notification.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet" />
+
+
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FreeCourse.Web</a>
+        <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/trendyol.webp" height="25" alt="MDB Logo" loading="lazy" />
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                     </ul>
+
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <ul class="navbar-nav">
-
+                        <a class="text-reset me-3" asp-controller="Courses" asp-action="FavoriteCourses">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
+                        <a class="text-reset me-3" asp-controller="Basket" asp-action="Index">
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                        <ul class="navbar-nav ms-auto d-flex flex-row" id="generalNot">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @User.Identity.Name
+
+                                @{
+                                    var notifications = _INotificationService.GetNotificationsByUserId().Result;
+                                    if (notifications == null)
+                                        notifications = new List<NotificationViewModel>();
+                                }
+
+                                <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" asp-controller="Notification" asp-action="Index" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-bell"></i>
+                                    <span class="badge rounded-pill badge-notification bg-danger">@notifications.Where(x => x.IsSeen == false).Count()</span>
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Index">Profil</a></li>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" id="listName">
+                                    <li>
+                                        <!-- #region Notifications -->
+                                        <a asp-controller="Notification" asp-action="Index">Manage Notifications</a>
+
+                                        @if (notifications != null && notifications.Count != 0 && notifications.Any())
+                                        {
+                                            <div class="list-group">
+
+                                                @foreach (var item in notifications)
+                                                {
+                                                    @if (item.IsSeen)
+                                                    {
+                                                        <a href="#" class="list-group-item list-group-item-action"
+                                                           style="border-color: black;border: groove;" aria-current="true">
+                                                            <div class="d-flex w-100 justify-content-between">
+                                                                <h5 class="mb-1">@item.Title</h5>
+                                                                <small>@item.ElapsedTime</small>
+                                                            </div>
+                                                            <p class="mb-1">@item.Message</p>
+                                                            <span class="badge bg-primary rounded-pill">@item.Severity</span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#" class="list-group-item list-group-item-action dropdown-item"
+                                                           style="border-color: black;border: groove;" aria-current="true">
+                                                            <div class="d-flex w-100 justify-content-between">
+                                                                <h5 class="mb-1">@item.Title</h5>
+                                                                <small>@item.ElapsedTime</small>
+                                                            </div>
+                                                            <p class="mb-1">@item.Message</p>
+                                                            <span class="badge bg-primary rounded-pill">@item.Severity</span>
+                                                        </a>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="list-group">
+                                                <a href="#" class="list-group-item list-group-item-action"
+                                                   style="border-color: black;border: groove;" aria-current="true">
+                                                    <p class="mb-1">Bildirim Yok</p>
+                                                </a>
+                                            </div>
+                                        }
+
+                                        <!-- #endregion -->
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Icon dropdown -->
+                            <!--Language -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="united kingdom flag m-0"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="united kingdom flag"></i>English
+                                            <i class="fa fa-check text-success ms-2"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="flag-poland flag"></i>Polski</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="flag-china flag"></i>中文</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="flag-japan flag"></i>日本語</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="flag-germany flag"></i>Deutsch</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="flag-france flag"></i>Français</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="flag-spain flag"></i>Español</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="flag-russia flag"></i>Русский</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="flag-portugal flag"></i>Português</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @{
+                                        var user = await _identityService.GetUserProfileAsync();
+                                    }
+                                    @if (user != null && user.Data != null && user.Data.ProfilePicture != null)
+                                    {
+                                        <img src="data:image/*;base64,@(Convert.ToBase64String(user.Data.ProfilePicture))" class="rounded-circle" height="22" alt="Avatar" loading="lazy" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/default_profile_picture.webp" class="rounded-circle" height="22" alt="Avatar" loading="lazy" />
+                                    }
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
+                                    <li> <a class="dropdown-item" asp-controller="User" asp-action="Index">My Profile</a></li>
                                     <li><a class="dropdown-item" asp-controller="Order" asp-action="CheckoutHistory">Ödeme geçmişim</a></li>
                                     <li><a class="dropdown-item" asp-controller="Basket" asp-action="Index">Sepet</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="LogOut">Çıkış</a></li>
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Index">Settings</a></li>
+                                    <li> <a class="dropdown-item" asp-controller="Auth" asp-action="LogOut">Log Out</a></li>
                                 </ul>
                             </li>
                         </ul>
 
-                    }
 
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <ul class="navbar-nav">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#" id="navbarManage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Manage
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarManage">
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="UserRoles" asp-action="Index">User Roles</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="RoleManager" asp-action="Index">Role Manager</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        }
+
+                    }
                     else
                     {
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="SignIn">Giriş yap</a>
+                        <a class="nav-link text-dark" style="margin-right:10px" asp-controller="Account" asp-action="Register">Register</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="SignIn">SignIn</a>
                     }
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+
+    <div role="main" class="container pb-3">
+        <main style="margin-top: 58px;">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - FreeCourse.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    
+    <div style="bottom:0;position: fixed; width:100%;">
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2021 - FreeCourse.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"></script>
+
+ 
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/31153e9135.js" crossorigin="anonymous"></script>
+    <script src="~/lib/Rating/starrr.js"></script>
+    <script render="ImplementStarrrJs"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

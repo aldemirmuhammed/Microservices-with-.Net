@@ -20,6 +20,7 @@ namespace FreeCourse.IdentityServer
             new ApiResource("resource_order"){Scopes={ "order_fullpermission" } },
             new ApiResource("resource_payment"){Scopes={ "payment_fullpermission" } },
             new ApiResource("resource_gateway"){Scopes={ "gateway_fullpermission" } },
+            new ApiResource("resource_notification"){Scopes={ "notification_fullpermission" } },
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
 
         };
@@ -30,6 +31,7 @@ namespace FreeCourse.IdentityServer
                        new IdentityResources.Email(),
                        new IdentityResources.OpenId(),
                        new IdentityResources.Profile(),
+                       new IdentityResources.Phone(),
                        new IdentityResource(){Name="roles",DisplayName="Roles",Description="Kullanıcı rolleri",UserClaims=new[]{"role"}}
                    };
 
@@ -43,6 +45,8 @@ namespace FreeCourse.IdentityServer
                new ApiScope("order_fullpermission","Order API için full erişim"),
                new ApiScope("payment_fullpermission","Payment API için full erişim"),
                new ApiScope("gateway_fullpermission","Gateway API için full erişim"),
+               new ApiScope("notification_fullpermission","Notification API için full erişim"),
+               new ApiScope("web_fullpermission","Web Clietn API için full erişim"),
                new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
 
@@ -61,18 +65,19 @@ namespace FreeCourse.IdentityServer
                         ,IdentityServerConstants.LocalApi.ScopeName }
 
                 },
-                    new Client
+                new Client
                 {
                     ClientName = "Asp.Net Core Mvc",
                     ClientId = "WebMvcClientForUser",
                     AllowOfflineAccess = true,
                     ClientSecrets={ new Secret("secret".Sha256()) },
                     AllowedGrantTypes =GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes={"basket_fullpermission"
+                    AllowedScopes={"basket_fullpermission",
                             //,"discount_fullpermission"
-                            ,"order_fullpermission"
-                            //,"payment_fullpermission"
-                            ,"gateway_fullpermission",
+                            "order_fullpermission",
+                            //"payment_fullpermission",
+                            "gateway_fullpermission",
+                            "notification_fullpermission",
                             IdentityServerConstants.StandardScopes.Email,
                             IdentityServerConstants.StandardScopes.OpenId,
                             IdentityServerConstants.StandardScopes.Profile,
@@ -97,7 +102,7 @@ namespace FreeCourse.IdentityServer
                     ClientId = "TokenExchangeClient",
                     ClientSecrets={ new Secret("secret".Sha256()) },
                     AllowedGrantTypes = new []{"urn:ietf:params:oauth:grant-type:token-exchange" },
-                    AllowedScopes={ 
+                    AllowedScopes={
                         "discount_fullpermission"
                        ,"payment_fullpermission"
                         ,IdentityServerConstants.StandardScopes.OpenId

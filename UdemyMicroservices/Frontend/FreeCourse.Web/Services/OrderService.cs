@@ -90,8 +90,16 @@ namespace FreeCourse.Web.Services
 
         public async Task<List<OrderViewModel>> GetOrder()
         {
-            var response = await _httpClient.GetFromJsonAsync<Response<List<OrderViewModel>>>("orders");
-            return response.Data;
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<Response<List<OrderViewModel>>>("orders");
+                return response.Data;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task<OrderSuspendViewModel> SuspendOrder(CheckoutInfoInput checkoutInfoInput)

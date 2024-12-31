@@ -15,12 +15,13 @@ using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FreeCourse.IdentityServer
 {
     public class Program
     {
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -29,13 +30,6 @@ namespace FreeCourse.IdentityServer
                 .MinimumLevel.Override("System", LogEventLevel.Warning)
                 .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                // uncomment to write to Azure diagnostics stream
-                //.WriteTo.File(
-                //    @"D:\home\LogFiles\Application\identityserver.txt",
-                //    fileSizeLimitBytes: 1_000_000,
-                //    rollOnFileSizeLimit: true,
-                //    shared: true,
-                //    flushToDiskInterval: TimeSpan.FromSeconds(1))
                 .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
                 .CreateLogger();
 
@@ -60,9 +54,15 @@ namespace FreeCourse.IdentityServer
                     if (!userManager.Users.Any())
                     {
                         // Create default user
-                        userManager.CreateAsync(new ApplicationUser { UserName = "muhammedaldemir", Email = "aldemirmuhammed2009@gmail.com",
-                            City = "Ankara" }, "Password12*").Wait();
+                        userManager.CreateAsync(new ApplicationUser
+                        {
+                            UserName = "muhammedaldemir",
+                            PhoneNumber = "+905382051031",
+                            Email = "aldemirrmuhammed2009@gmail.com",
+                            City = "Ankara"                            
+                        }, "Password12*").Wait();
                     }
+                    //await SeedData.EnsureSeedData(host.Configuration.GetConnectionString("DefaultConnection"));
                 }
                 Log.Information("Starting host...");
                 host.Run();

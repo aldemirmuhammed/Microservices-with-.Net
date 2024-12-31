@@ -1,0 +1,146 @@
+﻿@using FreeCourse.Web.Models.Notifications
+@using System.Security.Policy
+@using FreeCourse.Web.Services
+@using FreeCourse.Web.Services.Interfaces
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@inject INotificationService _notificationService;
+@model List<NotificationViewModel>
+<h1>Notifications</h1>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+    <link rel="stylesheet" href="~/css/notification_view.css">
+    <title>Notifications page</title>
+    <style>
+        .attribution {
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .attribution a {
+                color: hsl(228, 45%, 44%);
+            }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="app">
+            <div class="header">
+                <h2>
+                    <span class="title">Notifications</span>
+                    <span class="unread-notification-number">
+                        @Model.Count().ToString()
+                    </span>
+                </h2>
+                <a asp-controller="Notification" asp-action="UpdateSeenAll" class="link-primary">
+                    Mark all as read (unread @Model.Where(x => x.IsSeen == false).Count().ToString())
+                </a>
+            </div>
+            <div class="body">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model.OrderByDescending(x => x.CreatedAt))
+                    {
+                        @if (item.IsSeen)
+                        {
+                            <div class="notification">
+                                <div class="avatar"><img src="~/notification_64.png"></div>
+                                <div class="text">
+                                    <div class="text-top">
+                                        <p> @item.Title</p>
+                                        <p>@item.Message</p>
+                                    </div>
+                                    <div class="text-bottom"> @item.ElapsedTime</div>
+                                </div>
+                                <div>
+                                    <a asp-controller="Notification" asp-action="Delete" asp-route-id="@item.Id">
+                                        <img src="~/notifications_trash_24.png" />
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="notification unreaded" href="@Url.Action("UpdateSeen","Notification",item.Id)">
+                                <div class="avatar"><img src="~/notification_64.png"></div>
+                                <div class="text">
+                                    <div class="text-top">
+                                        <p>
+                                            @item.Title
+                                            <a asp-controller="Notification" asp-action="UpdateSeen" asp-route-id="@item.Id">
+                                                <span class="unread-dot"></span>
+
+                                            </a>
+                                        </p>
+                                        <p>@item.Message</p>
+                                    </div>
+                                    <div class="text-bottom"> @item.ElapsedTime</div>
+                                </div>
+                                <div>
+                                    <a asp-controller="Notification" asp-action="Delete" asp-route-id="@item.Id">
+                                        <img src="~/notifications_trash_24.png" />
+                                    </a>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                }
+                else
+                {
+                    <div class="notification">
+                        <div class="text">
+                            <div class="text-top">
+                                <p>
+                                    No Notifications
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <form method="post" asp-controller="Notification" asp-action="SaveOrUpdateSetting">
+
+                    <p>
+                        <a class="link-primary" data-bs-toggle="collapse" href="#collapseExample" role="link" aria-expanded="false" aria-controls="collapseExample">
+                            Manage Notifications
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="notification">
+                            <div class="form-check form-switch">
+                                @{
+                                    var settings = await _notificationService.GetNotificationsSetting();
+                                }
+                                @if (settings != null)
+                                {
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">Mute Notifications</label>
+                                    <input class="form-check-input" asp-for="@settings.IsNotificationMute" type="checkbox" role="button" name="isMute" id="flexSwitchCheckDefault" checked="@settings.IsNotificationMute">
+                                }
+                                else
+                                {
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">Mute Notifications</label>
+                                    <input class="form-check-input" type="checkbox" role="button" name="isMute" id="flexSwitchCheckDefault">
+                                }
+                            </div>
+
+                            <button class="btn btn-primary" type="submit" name="action">Save</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

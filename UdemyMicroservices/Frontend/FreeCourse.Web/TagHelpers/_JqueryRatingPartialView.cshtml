@@ -1,0 +1,52 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *,CaptureRenderTagHelper
+
+
+@model FreeCourse.Web.TagHelpers.RatingTagHelpers
+
+
+<div class="starrr">
+</div>
+<div id="divRatingValue"></div>
+<input id="hidRatingServerValue" type="hidden" asp-for="@Model.Rating.Model" name="@Model.Rating.Name" />
+<input id="hidRatingClientValue" name="hidRatingClientValue" type="hidden" />
+
+
+
+<script type="text/javascript" capture="ImplementStarrrJs">
+
+    // get Font Size
+    let serverMaxSize = '@Html.Raw(Model.MaxSize)';
+    console.log(serverMaxSize);
+
+    // get Count
+    let serverRating = '@Html.Raw(Model.Rating.Model)';
+    console.log(serverRating);
+
+    //get Method Name
+    let onChangeEventMethodName = '@Html.Raw(Model.OnChangeEvent)';
+    console.log(onChangeEventMethodName);
+
+    $('.starrr').starrr({
+        rating: serverRating,
+        max: serverMaxSize,
+        change: function (e, value) {
+            console.log('new rating is ' + value);
+
+            $("#hidRatingServerValue").val(value); // Set Rating Value for Server Side rendering for using asp-for tag helper
+            $("#hidRatingClientValue").val(value); // Set rating value in client side where we extract the value using Request.Form
+
+
+            // $("#divRatingValue").html(`Rating value : ${value}`);
+
+            // Call dynamic Method by Name
+            window[onChangeEventMethodName](value); // Rating Value
+
+        }
+    });
+
+
+
+
+</script>
+

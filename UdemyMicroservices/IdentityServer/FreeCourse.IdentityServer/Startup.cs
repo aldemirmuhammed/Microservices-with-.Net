@@ -32,14 +32,14 @@ namespace FreeCourse.IdentityServer
         {
             // User controller protect
             services.AddLocalApiAuthentication();
-
-
             services.AddControllersWithViews();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                .AddSignInManager<SignInManager<ApplicationUser>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -49,8 +49,6 @@ namespace FreeCourse.IdentityServer
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
-
-                // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
             })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
@@ -61,8 +59,6 @@ namespace FreeCourse.IdentityServer
 
             builder.AddResourceOwnerValidator<IdentityResourceOwnerPasswordValidator>();
             builder.AddExtensionGrantValidator<TokenExchangeExtensionGrantValidator>();
-
-
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();

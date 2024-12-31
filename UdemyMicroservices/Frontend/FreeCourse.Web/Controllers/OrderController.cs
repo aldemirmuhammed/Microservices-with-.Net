@@ -63,5 +63,10 @@ namespace FreeCourse.Web.Controllers
         {
             return View(await _orderService.GetOrder());
         }
+
+        public async Task<IActionResult> MyOrders()
+        {
+            return View(await _orderService.GetOrder());
+        }
     }
 }

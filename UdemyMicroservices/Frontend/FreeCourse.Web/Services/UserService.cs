@@ -1,7 +1,11 @@
-﻿using FreeCourse.Web.Models;
+﻿using FreeCourse.Shared.Dtos;
+using FreeCourse.Web.Models.Account;
+using FreeCourse.Web.Models.Account.User;
 using FreeCourse.Web.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Web.Services
@@ -17,7 +21,13 @@ namespace FreeCourse.Web.Services
 
         public async Task<UserViewModel> GetUser()
         {
-            return await _httpClient.GetFromJsonAsync<UserViewModel>("/api/user/getuser");
+            var response =  await _httpClient.GetAsync("/api/User/GetUser");
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var role = await response.Content.ReadFromJsonAsync<UserViewModel>();
+            return role;
         }
+
     }
 }

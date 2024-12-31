@@ -1,10 +1,19 @@
-﻿@{
+﻿@using FreeCourse.Web;
+@using FreeCourse.Web.Models.Notifications;
+@using FreeCourse.Web.Services.Interfaces
+@model List<CourseViewModel>
+@{
     ViewData["Title"] = "Home Page";
     var count = 0;
+    var _viewBaag = ViewBag.Ratings as List<decimal>;
+
 }
-@model List<CourseViewModel>
+
+@* @model List<CourseViewModel> *@
 <h2>Kurslar</h2>
 <hr />
+
+
 
 @if (Model != null)
 {
@@ -26,10 +35,65 @@
                         <div class="badge bg-primary">Kategori : @item.Category.Name</div>
                         <p class="card-text">@item.ShortDescription</p>
                         <h4 class="text-primary">@item.Price TL</h4>
+                        <div class="d-flex justify-content-between">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div class="d-flex flex-row align-items-center">
+                                    @if (item.CourseRate > 0)
+                                    {
+                                        @for (int i = 0; i < Convert.ToInt16(@item.CourseRate); i++)
+                                        {
+                                            <span><i class="fa-solid fa-star" style="color: #FFD43B;"></i></span>
+                                        }
+                                        @for (int i = Convert.ToInt16(@item.CourseRate); i < 5; i++)
+                                        {
+                                            <span><i class="fa-regular fa-star"></i></span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            <span disabled="disabled"><i class="fa-regular fa-star"></i></span>
+                                        }
+                                    }
+                                    <div id="percent"></div>
+                                </div>
+                                <div>
+                                    @if (item.CourseCommentList != null && item.CourseCommentList.Count != 0)
+                                    {
 
-                        <div>
-                            <a asp-controller="Home" asp-action="Detail" class="btn btn-success" asp-route-id="@item.Id">Detay</a>
+                                        <p class="card-text">Comment (@item.CourseCommentList.Count)</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="card-text">Comment (0)</p>
+                                    }
+                                </div>
+                            }
                         </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <div class="d-flex flex-row align-items-center">
+                                <a asp-controller="Home" asp-action="Detail" class="btn btn-success" asp-route-id="@item.Id">Detay</a>
+                            </div>
+                            <div>
+                                @if (User.Identity.IsAuthenticated && @item.IsFavorite)
+                                {
+                                    <a asp-controller="Courses" asp-action="DeleteFavoriteCourse" asp-route-courseId="@item.Id">
+                                        <i class="fa-solid fa-heart"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Courses" asp-action="CreateFavoriteCourse" asp-route-courseId="@item.Id">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -41,4 +105,10 @@
 
         }
     }
+}
+
+@section Scripts {
+
+   
+
 }

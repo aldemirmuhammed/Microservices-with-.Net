@@ -1,7 +1,8 @@
-﻿@{
+﻿@using FreeCourse.Web.Models.Account.SignIn
+@{
     ViewData["Title"] = "SignIn";
 }
-@model FreeCourse.Web.Models.SigninInput
+@model SigninInput
 
 <div class="row">
 
@@ -15,7 +16,7 @@
                 <form asp-controller="Auth" asp-action="SignIn" method="post">
                     <div class="mb-3">
                         <label asp-for="Email" for="exampleInputEmail1" class="form-label"></label>
-                        <input type="email" value="aldemirmuhammed2009@gmail.com" asp-for="Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <input type="email" value="aldemirrmuhammed2009@gmail.com" asp-for="Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                         <span class="text-danger" asp-validation-for="Email"></span>
                     </div>
                     <div class="mb-3">
@@ -27,7 +28,33 @@
                         <input type="checkbox" asp-for="IsRemember" class="form-check-input" id="exampleCheck1">
                         <label asp-for="IsRemember" class="form-check-label" for="exampleCheck1"></label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Giriş yap</button>
+                    <div class="mb-3">
+                        <a href="/Account/ForgotPassword">Forgot password?</a>
+                        <br />
+                        <a asp-action="Index" asp-controller="ResendEmailConfirmation">Resend email confirmation?</a>
+                       
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mb-3">Giriş yap</button>
+
+                    <div class="text-center">
+                        <p>Not a member? <a href="/Account/Register">Register</a></p>
+                        <p>or sign up with:</p>
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-google"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-github"></i>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

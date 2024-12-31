@@ -6,4 +6,7 @@
 <ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 </ItemGroup>
+<ItemGroup>
+  <PackageReference Include="MimeKit" Version="4.4.0" />
+</ItemGroup>
 </Project>

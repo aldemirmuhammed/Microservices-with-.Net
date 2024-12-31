@@ -1,0 +1,46 @@
+﻿@using FreeCourse.Web.Models.Account;
+@using FreeCourse.Web.Models.Account.ChangePassword
+@using FreeCourse.Web.Views.Account
+
+@model SetPasswordViewModel
+@{
+    ViewData["Title"] = "Set password";
+    ViewData["ActivePage"] = ManageNavPages.ChangePassword;
+}
+
+<h4>Set your password</h4>
+@if (TempData["SetPasswordStatus"] != null)
+{
+    <partial name="~/Views/Account/_StatusMessage.cshtml" for="@TempData["SetPasswordStatus"]" />
+}
+<p class="text-info">
+    You do not have a local username/password for this site. Add a local
+    account so you can log in without an external login.
+</p>
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                <form id="set-password-form" method="post" asp-controller="SetPassword" asp-action="SetPassword">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group mb-3">
+                        <label asp-for="NewPassword"></label>
+                        <input asp-for="NewPassword" class="form-control" />
+                        <span asp-validation-for="NewPassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mb-3">Set password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

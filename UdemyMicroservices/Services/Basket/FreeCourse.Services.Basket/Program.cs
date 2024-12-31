@@ -1,6 +1,10 @@
+using FreeCourse.EventBus.Messages.Common;
+using FreeCourse.Services.Basket.Consumers;
 using FreeCourse.Services.Basket.Services;
+using FreeCourse.Services.Basket.Services.Interfaces;
 using FreeCourse.Services.Basket.Settings;
 using FreeCourse.Shared.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +23,6 @@ builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
 });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -36,6 +39,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 builder.Services.AddScoped<IBasketService, BasketService>();
+builder.Services.AddScoped<IMessageQueueService, MessageQueueService>();
 builder.Services.Configure<RedisSettings>(builder.Configuration.GetSection("RedisSettings"));
 
 builder.Services.AddSingleton<RedisService>(sp =>
@@ -48,6 +52,24 @@ builder.Services.AddSingleton<RedisService>(sp =>
 
     return redis;
 });
+
+
+builder.Services.AddMassTransit(x =>
+{
+    // Default Port : 5672
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMQUrl"], "/", host =>
+        {
+            host.Username("guest");
+            host.Password("guest");
+        });
+    });   
+});
+builder.Services.AddScoped<CourseNameChangedEventConsumer>();
+builder.Services.AddMassTransitHostedService();
+
+
 
 
 var app = builder.Build();

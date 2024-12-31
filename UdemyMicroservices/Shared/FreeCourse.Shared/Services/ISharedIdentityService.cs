@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FreeCourse.Shared.Services
 {
@@ -8,8 +9,6 @@ namespace FreeCourse.Shared.Services
     {
 
         public string GetUserId { get; }
-
-
 
     }
 }

@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Confirm email";
+}
+
+<h1>@ViewData["Title"]</h1>
+@if (TempData["ConfirmEmailStatus"] != null)
+{
+    var msg = TempData["ConfirmEmailStatus"];
+    <partial name="~/Views/Account/_StatusMessage.cshtml" for="@msg" />
+}

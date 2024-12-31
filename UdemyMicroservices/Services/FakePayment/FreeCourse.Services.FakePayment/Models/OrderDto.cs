@@ -12,6 +12,7 @@ namespace FreeCourse.Services.FakePayment.Models
             OrderItems = new List<OrderItemDto>();
         }
         public string BuyerId { get; set; }
+        public string BuyerEmail { get; set; }
 
         public AddressDto Address { get; set; }
 

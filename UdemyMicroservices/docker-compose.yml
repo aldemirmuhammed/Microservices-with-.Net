@@ -1,65 +1,91 @@
 version: "3.8"
 services:
-  catalogdb:
+  microservicenet.catalogdb:
     image: mongo
-  basketdb:
+
+  microservicenet.basketdb:
     image: redis
-  discountdb:
+
+  microservicenet.discountdb:
     image: postgres:15.4-alpine3.18
-  identitydb:
+
+  microservicenet.identitydb:
     image: mcr.microsoft.com/mssql/server:2019-latest
-  orderdb:
+
+  microservicenet.notificationdb:
     image: mcr.microsoft.com/mssql/server:2019-latest
-  rabbitmq:
+
+  microservicenet.orderdb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  microservicenet.rabbitmq:
     image: rabbitmq:3.8.14-management
-  catalog.api:
+
+  microservicenet.catalog.api:
     image: catalog_api_image
     build:
       context: .
       dockerfile: Services/Catalog/FreeCourse.Services.Catalog/Dockerfile
-  identityserver.api:
+
+  microservicenet.identityserver.api:
     image: identityserver_api_image
     build:
       context: .
       dockerfile: IdentityServer/FreeCourse.IdentityServer/Dockerfile
-  basket.api:
+
+  microservicenet.basket.api:
     image: basket_api_image
     build:
       context: .
       dockerfile: Services/Basket/FreeCourse.Services.Basket/Dockerfile
-  photostock.api:
+
+  microservicenet.photostock.api:
     image: photostock_api_image
     build:
       context: .
       dockerfile: Services/PhotoStock/FreeCourse.Services.PhotoStock/Dockerfile
-  discount.api:
+
+  microservicenet.discount.api:
     image: discount_api_image
     build:
       context: .
       dockerfile: Services/Discount/FreeCourse.Services.Discount/Dockerfile
-  fakepayment.api:
+
+  microservicenet.fakepayment.api:
     image: fakepayment_api_image
     build:
       context: .
       dockerfile: Services/FakePayment/FreeCourse.Services.FakePayment/Dockerfile
-  order.api:
+
+  microservicenet.order.api:
     image: order_api_image
     build:
       context: .
       dockerfile: Services/Order/FreeCourse.Services.Order.API/Dockerfile
-  gateway.api:
+
+  microservicenet.gateway.api:
     image: gateway_api_image
     build:
       context: .
       dockerfile: Gateways/FreeCourse.Gateway/Dockerfile
-  aspnetcoremvc.web:
+
+  microservicenet.aspnetcoremvc.web:
     image: aspnetcoremvc.web_image
     build:
       context: .
       dockerfile: Frontend/FreeCourse.Web/Dockerfile
+
+  microservicenet.notification.api:
+    image:  microservicenet.notification.api.image
+    build:
+      context: .
+      dockerfile: Services/Notification/FreeCourse.Notification.API/Dockerfile
+
+
 
 volumes:
   catalogdb_volume:
   discount_volume:
   identitydb_volume:
   orderdb_volume:
+  notificationdb_volume:

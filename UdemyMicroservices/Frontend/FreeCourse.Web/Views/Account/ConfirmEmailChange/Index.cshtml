@@ -1,0 +1,12 @@
+﻿@using FreeCourse.Web.Models.Account.ConfirmEmailChange
+@model ConfirmEmailChangeViewModel
+@{
+    ViewData["Title"] = "Confirm email change";
+}
+
+<h1>@ViewData["Title"]</h1>
+@if (TempData["ConfirmEmailChangeStatusMessage"] != null)
+{
+    var msg = TempData["ConfirmEmailChangeStatusMessage"];
+    <partial name="~/Views/Account/_StatusMessage.cshtml" model="msg" />
+}
