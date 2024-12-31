@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FreeCourse.Shared.Services
 {
@@ -17,9 +19,9 @@ namespace FreeCourse.Shared.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string GetUserId => _httpContextAccessor.HttpContext.User.FindFirst("sub").Value;
-    
-    
-    
+        public string GetUserId => _httpContextAccessor.HttpContext.User.FindFirst("sub") != null ?
+            _httpContextAccessor.HttpContext.User.FindFirst("sub").Value : string.Empty;
+
+
     }
 }

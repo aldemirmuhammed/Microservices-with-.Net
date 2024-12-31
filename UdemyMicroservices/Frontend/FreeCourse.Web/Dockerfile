@@ -1,15 +1,24 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim as build
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
-COPY Shared/FreeCourse.Shared/*.csproj Shared/FreeCourse.Shared/
-COPY Frontend/FreeCourse.Web/*.csproj Frontend/FreeCourse.Web/
-RUN dotnet restore Frontend/FreeCourse.Web/*.csproj
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["Frontend/FreeCourse.Web/FreeCourse.Web.csproj", "Frontend/FreeCourse.Web/"]
+COPY ["Shared/FreeCourse.Shared/FreeCourse.Shared.csproj", "Shared/FreeCourse.Shared/"]
+RUN dotnet restore "./Frontend/FreeCourse.Web/./FreeCourse.Web.csproj"
 COPY . .
-RUN dotnet publish Frontend/FreeCourse.Web/*.csproj -c Release -o out
-FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim as runtime
+WORKDIR "/src/Frontend/FreeCourse.Web"
+RUN dotnet build "./FreeCourse.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./FreeCourse.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/out .
-ENTRYPOINT [ "dotnet","FreeCourse.Web.dll" ]
-
-
-
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "FreeCourse.Web.dll"]

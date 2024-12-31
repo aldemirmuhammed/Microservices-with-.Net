@@ -1,0 +1,34 @@
+﻿@using FreeCourse.Web.Views.Account
+@{
+    ViewData["Title"] = "Disable two-factor authentication (2FA)";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+@if (TempData["TwoFactorEnabledStatus"] != null)
+{
+    <partial name="_StatusMessage" for="@TempData["TwoFactorEnabledStatus"]" />
+}
+<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                    <p>
+                        <strong>This action only disables 2FA.</strong>
+                    </p>
+                    <p>
+                        Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key
+                        used in an authenticator app you should <a asp-action="Index" asp-controller="ResetAuthenticator">reset your authenticator keys.</a>
+                    </p>
+                </div>
+
+                <div>
+                    <form method="post" class="form-group" asp-action="SetTwoFactorEnabledAsync" asp-controller="Disable2Fa">
+                        <button class="btn btn-danger btn-block mb-3" type="submit">Disable 2FA</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

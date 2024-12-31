@@ -1,4 +1,6 @@
+using FluentValidation.AspNetCore;
 using FreeCourse.Shared.Services;
+using FreeCourse.Web.Extensions;
 using FreeCourse.Web.Handler;
 using FreeCourse.Web.Helpers;
 using FreeCourse.Web.Models;
@@ -7,11 +9,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
-
 using System;
-using FreeCourse.Web.Extensions;
-using FluentValidation.AspNetCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
+builder.Services.AddSignalR();
 
 builder.Services.AddFluentValidationAutoValidation();
 
@@ -33,6 +33,7 @@ builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
 builder.Services.AddScoped<ClientCredentialTokenHandler>();
 
 builder.Services.AddHttpClientServices(builder.Configuration);
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts =>
 {
     opts.LoginPath = "/Auth/SignIn";
@@ -40,18 +41,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     opts.SlidingExpiration = true;
     opts.Cookie.Name = "udemywebcookie";
 });
-
-
-
-
-
-
-
-
-
-
-
-
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 
 
@@ -73,5 +63,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllers();
 
 app.Run();

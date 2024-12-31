@@ -1,4 +1,6 @@
-﻿using FreeCourse.Web.Models;
+﻿using FreeCourse.Shared.Dtos;
+using FreeCourse.Web.Models.Account;
+using FreeCourse.Web.Models.Account.User;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Web.Services.Interfaces

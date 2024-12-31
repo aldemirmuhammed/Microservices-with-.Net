@@ -1,0 +1,42 @@
+﻿@using FreeCourse.Web.Models.Catalogs.Course.CourseComment
+@using FreeCourse.Web.Models.Catalogs.Course.CourseQuestion
+@using FreeCourse.Web.Services.Interfaces
+@model CourseAnswerViewModel;
+
+
+@if (Model != null && Model.CourseId != null)
+{
+    <form asp-controller="Courses" asp-action="QuestionAnswerCreate" method="post" enctype="multipart/form-data">
+
+        <div class="card" style="width:50%">
+            <div class="row">
+                <div class="col-2">
+                    @if (Model.User != null && Model.User.ProfilePicture != null)
+                    {
+                        <img class="rounded-circle shadow-1-strong me-3"
+                             src="data:image/*;base64,@(Convert.ToBase64String(Model.User.ProfilePicture))" alt="avatar" width="50" height="50" />
+                    }
+                    else
+                    {
+                        <img src="~/default_profile_picture.webp" width="65" height="65" class="rounded-circle mt-2">
+                    }
+
+                </div>
+                <div class="col-10">
+                    <div class="comment-box ml-2">
+                        <div class="comment-area">
+                            <input asp-for="@Model.CourseId" class="form-control" style="display:none" rows="1" />
+                            <input asp-for="@Model.QuestionId" class="form-control" style="display:none" rows="1" />
+                            <textarea asp-for="@Model.AnswerDescription" class="form-control" placeholder="* what is your asnwer?" rows="1"></textarea>
+                        </div>
+                        <div class="comment-btns mt-2">
+                            <button class="btn btn-success send btn-sm">
+                                Send <i class="fa fa-long-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}

@@ -14,6 +14,7 @@ namespace FreeCourse.Shared.Messages
             OrderItems = new List<OrderItem>();
         }
         public string BuyerId { get; set; }
+        public string BuyerEmail { get; set; }
 
         public List<OrderItem> OrderItems { get; set; }
 
@@ -23,7 +24,11 @@ namespace FreeCourse.Shared.Messages
         public string ZipCode { get; set; }
         public string Line { get; set; }
 
-
+        public string CardName { get; set; }
+        public string CardNumber { get; set; }
+        public string Expiration { get; set; }
+        public string CVV { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 
     public class OrderItem

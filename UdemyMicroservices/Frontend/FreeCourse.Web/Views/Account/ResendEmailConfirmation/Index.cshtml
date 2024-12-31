@@ -1,0 +1,37 @@
+﻿@using FreeCourse.Web.Models.Account.SendEmailConfirmation
+@model SendEmailConfirmationViewModel
+@{
+    ViewData["Title"] = "Resend email confirmation";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (TempData["ResendEmailConfirmationMessage"] != null)
+{
+    var msg = TempData["ResendEmailConfirmationMessage"];
+    <partial name="~/Views/Account/_StatusMessage.cshtml" model="msg" />
+}
+
+<h4>Enter your email.</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" asp-action="ResendEmailConfirmation" asp-controller="ResendEmailConfirmation">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mb-3">Resend</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

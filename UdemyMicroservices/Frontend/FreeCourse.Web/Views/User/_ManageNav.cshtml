@@ -1,0 +1,17 @@
+﻿@using FreeCourse.Web.Models;
+@using FreeCourse.Web.Models.Account
+@using FreeCourse.Web.Views.Account
+
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item"><a class="nav-link" id="profile" asp-action="Index" asp-controller="Profile">Profile</a></li>
+    <li class="nav-item"><a class="nav-link" id="email" asp-action="Index" asp-controller="ChangeEmail">Email</a></li>
+    <li class="nav-item"><a class="nav-link" id="change-password" asp-action="Index" asp-controller="ChangePassword">Change Password</a></li>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li id="external-logins" class="nav-item">
+            <a id="external-login" class="nav-link" asp-action="Index" asp-controller="ExternalLogins">External logins</a>
+        </li>
+    }
+    <li class="nav-item"><a class="nav-link" id="two-factor" asp-action="Index" asp-controller="TwoFactorAuthentication">Two-factor authentication</a></li>
+    <li class="nav-item"><a class="nav-link" id="personal-data" asp-action="Index" asp-controller="PersonalData">Personal data</a></li>
+</ul>

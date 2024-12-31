@@ -11,9 +11,12 @@ namespace FreeCourse.Web.Extensions
     public static class ServicesExtension
     {
 
-        public static void AddHttpClientServices(this IServiceCollection services,IConfiguration configuration)
+        public static void AddHttpClientServices(this IServiceCollection services, IConfiguration configuration)
         {
             var serviceApiSettings = configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
+
+            services.AddHttpClient<IRoleManagerService, RoleManagerService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
 
@@ -54,6 +57,13 @@ namespace FreeCourse.Web.Extensions
                 opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Order.Path}");
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
+            services.AddHttpClient<INotificationService, NotificationService>(opt =>
+            {
+                opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Notification.Path}");
+
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+          
 
         }
     }

@@ -1,12 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Index";
 }
+@* 
+<head>
+
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="~/css/basket_.css" rel="stylesheet" />
+</head> *@
+
 
 @model BasketViewModel
 
 <div class="row">
 
-    <div class="col-md-8 offset-md-2">
+     <div class="col-md-8 offset-md-2">
 
         <div class="card">
             <div class="card-body">
@@ -85,5 +94,102 @@
                 }
             </div>
         </div>
-    </div>
+    </div> 
 </div>
+
+@* <div class="card">
+    <div class="row">
+        @if (Model != null && Model.BasketItems.Any())
+        {
+            <div class="col-md-8 cart">
+
+                <div class="title">
+                    <div class="row">
+                        <div class="col"><h4><b>Basket</b></h4></div>
+                        <div class="col align-self-center text-right text-muted">@Model.BasketItems.Count items</div>
+                    </div>
+                </div>
+                @foreach (var item in Model.BasketItems)
+                {
+                    <div class="row border-top border-bottom">
+                        <div class="row main align-items-center">
+                            <div class="col-2"><img class="img-fluid" src="@item."></div>
+                            <div class="col">
+                                <div class="row text-muted">@item.CourseName</div>
+                                <div class="row">@item.CourseName</div>
+                            </div>
+                            <div class="col">
+                                <a href="#">-</a><a href="#" class="border">@item.Quantity</a><a href="#">+</a>
+                            </div>
+                            <div class="col">
+                                &euro; @item.Price
+
+                                <a asp-controller="Basket" asp-action="RemoveBasketItem" asp-route-courseId="@item.CourseId"><span class="close">&#10005;</span></a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                }
+                <div class="back-to-shop"><a asp-controller="Home" asp-action="Index">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+
+            </div>
+
+            <div class="col-md-4 summary">
+                <div><h5><b>Summary</b></h5></div>
+                <hr>
+                <div class="row">
+                    <div class="col" style="padding-left:0;">@Model.BasketItems.Count Item</div>
+                    <div class="col text-right">&euro; @Model.TotalPrice</div>
+                </div>
+                <form asp-controller="Basket" asp-action="ApplyDiscount">
+                   
+                    <p>SHIPPING</p>
+                    <select><option class="text-muted">Standard-Delivery- &euro;0.00</option></select>
+                    <p>GIVE CODE</p>
+                    <input id="code" name="DiscountApplyInput.Code" placeholder="Enter your code">
+                    <button class="btn btn-outline-secondary" type="submit">Uygula</button>
+                    @if (Model.HasDiscount)
+                    {
+                        <div class="alert alert-success">
+                            "@Model.DiscountCode" indirim kodu uygulandı
+                            <a asp-controller="Basket" asp-action="CancelApplyDiscount"> (iptal et)</a>
+                        </div>
+
+                    }
+
+                    @if (TempData["discountStatus"] != null && (bool)TempData["discountStatus"] == false)
+                    {
+                        <div class="text-danger">indirim kodu geçersiz</div>
+                    }
+                    @if (TempData["discountError"] != null)
+                    {
+                        <div class="text-danger">@TempData["discountError"]</div>
+                    }
+                </form>
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                    <div class="col">TOTAL PRICE</div>
+                    <div class="col text-right">&euro; @Model.TotalPrice</div>
+                </div>
+                <a class="btn" asp-controller="Order" asp-action="Checkout">CHECKOUT</a>
+
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">Sepet boş</div>
+        }
+
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+}
+ *@

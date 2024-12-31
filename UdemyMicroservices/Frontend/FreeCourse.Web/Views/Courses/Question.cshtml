@@ -1,0 +1,158 @@
+﻿@using FreeCourse.Web.Models.Catalogs.Course.CourseComment
+@using FreeCourse.Web.Models.Catalogs.Course.CourseQuestion
+@using FreeCourse.Web.Models.Catalogs.Course.CourseUser
+@using FreeCourse.Web.Services.Interfaces
+@inject IIdentityService _identityService;
+@model CourseViewModel;
+<head>
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/course_question.css" rel="stylesheet" />
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<div class="row d-flex justify-content-center" style="margin-top:10px">
+</div>
+
+
+<div class="container bootdey">
+    <div class="col-md-12 bootstrap snippets">
+        @{
+            var user = await _identityService.GetUserProfileAsync(Model.UserId);
+            var mapUser = new CourseUserViewModel
+            {
+                City = user.Data.City,
+                Email = user.Data.Email,
+                FirstName = user.Data.FirstName,
+                Id = user.Data.Id,
+                LastName = user.Data.LastName,
+                PhoneNumber = user.Data.PhoneNumber,
+                ProfilePicture = user.Data.ProfilePicture,
+                UserName = user.Data.UserName
+            };
+        }
+        @await Html.PartialAsync("~/Views/Courses/QuestionCreate.cshtml", new CourseQuestionViewModel { CourseId = Model.Id, User = mapUser })
+        <div class="panel">
+            <div class="panel-body">
+                @if (Model != null && Model.CourseQuestionsList != null && Model.CourseQuestionsList.Any())
+                {
+                    foreach (var item in Model.CourseQuestionsList)
+                    {
+                        <div class="card w-auto">
+                            <div class="media-block">
+                                <a class="media-left">
+                                    <img class="rounded-circle shadow-1-strong me-3" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(item.User.ProfilePicture))" width="50" height="50">
+                                </a>
+
+                                <div class="media-body">
+
+                                    <div class="mar-btm">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <a class="btn-link text-semibold media-heading box-inline">@item.User.UserName</a>
+                                            </div>
+                                            <div class="d-flex flex-row align-items-center">
+                                                <p class="text-muted text-sm">@item.CreatedTime.ToString("dd/MM/yyyy HH:mm")</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <p>@item.QuestionDescription</p>
+
+
+@* 
+                                    <div id="reply_@item.Id" class="bg-light p-2 collapse" data-parent="#myGroup_@item.Id">
+                                        <div class="d-flex flex-row align-items-start">
+                                            <img class="rounded-circle shadow-1-strong me-3" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(item.User.ProfilePicture))" width="50" height="50">
+                                            <textarea class="form-control ml-1 shadow-none textarea"></textarea>
+                                        </div>
+                                        <div class="mt-2 text-right">
+                                            <button class="btn btn-primary btn-sm shadow-none" type="button">Post comment</button>
+                                            <button class="btn btn-outline-primary btn-sm ml-1 shadow-none" data-toggle="collapse" aria-expanded="true" aria-controls="reply_@item.Id" href="#reply_@item.Id" type="button">Cancel</button>
+                                        </div>
+                                    </div>
+                                    <div class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="reply_@item.Id" href="#reply_@item.Id">
+                                        <i class="fa fa-share"></i>
+                                        <span class="ml-1">Reply</span>
+                                    </div>
+
+ *@
+                            
+
+
+                                    @if (item != null && item.Answers != null && item.Answers.Any())
+                                    {
+                                        foreach (var answer in item.Answers)
+                                        {
+                                            <hr>
+                                            <div>
+
+                                                <div class="media-block">
+                                                    <a class="media-left">
+                                                        <img class="rounded-circle shadow-1-strong me-3" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(answer.User.ProfilePicture))" width="50" height="50">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <div class="mar-btm">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div class="d-flex flex-row align-items-center">
+                                                                    <a class="btn-link text-semibold media-heading box-inline">@answer.User.UserName</a>
+                                                                </div>
+                                                                <div class="d-flex flex-row align-items-center">
+                                                                    <p class="text-muted text-sm">@answer.CreatedTime.ToString("dd/MM/yyyy HH:mm")</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p>@answer.AnswerDescription</p>
+                                                        <div class="pad-ver">
+                                                            <div class="btn-group">
+                                                                <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
+                                                                <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pad-ver">
+                                                            <div class="d-flex justify-content-between">
+
+                                                                <div class="d-flex flex-row align-items-center">
+                                                                    <a>
+                                                                        <i class="fa-solid fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
+                                                                    </a>
+                                                                    <p class="small text-muted mb-0">(@answer.AsnwerLike)</p>
+                                                                    <a>
+                                                                        <i class="fa-solid fa-thumbs-down mx-2 fa-xs text-black" style="margin-top: -0.16rem;"> </i>
+                                                                    </a>
+                                                                    <p class="small text-muted mb-0">(@answer.AsnwerDislike)</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    }
+                }
+                else
+                {
+                    <div class="card w-auto">
+                        <div class="media-block">
+                            <h6 class="pull-left">No Question</h6>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

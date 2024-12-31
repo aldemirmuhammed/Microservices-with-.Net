@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FreeCourse.Web.Handler
 {
-    public class ResourceOwnerPasswordTokenHandler:DelegatingHandler
+    public class ResourceOwnerPasswordTokenHandler : DelegatingHandler
     {
 
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -32,12 +32,12 @@ namespace FreeCourse.Web.Handler
 
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response=await base.SendAsync(request, cancellationToken);
-            if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            var response = await base.SendAsync(request, cancellationToken);
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                var tokenResponse=await _ıdentityService.GetAccessTokenByRefreshToken();    
+                var tokenResponse = await _ıdentityService.GetAccessTokenByRefreshToken();
 
-                if(tokenResponse!= null)
+                if (tokenResponse != null)
                 {
                     request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                         tokenResponse.AccessToken);
@@ -48,7 +48,7 @@ namespace FreeCourse.Web.Handler
 
             }
 
-            if(response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 // hata fırlatılacak
                 // Middleware tarafından karşılanacak

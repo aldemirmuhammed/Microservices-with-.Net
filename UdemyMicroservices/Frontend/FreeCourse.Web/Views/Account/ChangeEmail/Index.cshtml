@@ -1,0 +1,57 @@
+﻿@using FreeCourse.Web.Models.Account.ChangeEmail
+@using FreeCourse.Web.Views.Account
+@model ChangeEmailViewModel
+@{
+    ViewData["Title"] = "Manage Email";
+    ViewData["ActivePage"] = ManageNavPages.Email;
+}
+
+<h4>@ViewData["Title"]</h4>
+@if (TempData["ChangeEmailStatusMessage"] != null)
+{
+    var aa = TempData["ChangeEmailStatusMessage"];
+    <partial name="~/Views/Account/_StatusMessage.cshtml" model="aa" />
+}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                <form id="email-form" asp-controller="ChangeEmail" asp-action="ChangeEmail" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    @if (TempData["Email"] != null)
+                    {
+                        <div class="form-group mb-3">
+                            <label>Current Email</label>
+                            <div class="input-group">
+                                <input asp-for="@TempData["Email"]" class="form-control" disabled />
+                                <div class="input-group-append">
+                                    <span class="input-group-text text-success font-weight-bold">✓</span>
+                                </div>
+                            </div>
+                            @if (TempData["IsEmailConfirmed"] != null && (bool)TempData["IsEmailConfirmed"])
+                            {
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="NewEmail"></label>
+                                    <input asp-for="NewEmail" class="form-control" />
+                                    <span asp-validation-for="NewEmail" class="text-danger"></span>
+                                </div>
+                                <button type="submit" asp-controller="ChangeEmail" asp-action="ChangeEmail" class="btn btn-primary btn-block mb-3">Change email</button>
+                            }
+                            else
+                            {
+                                <button id="email-verification" type="submit" asp-controller="ChangeEmail" asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                            }
+                        </div>
+                    }
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

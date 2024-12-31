@@ -1,3 +1,4 @@
+using FreeCourse.Services.Discount.Extension;
 using FreeCourse.Services.Discount.Services;
 using FreeCourse.Shared.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,6 +40,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 
 var app = builder.Build();
+app.MigrateDatabase<Program>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

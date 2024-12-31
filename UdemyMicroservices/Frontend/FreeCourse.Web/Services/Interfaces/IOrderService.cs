@@ -1,4 +1,5 @@
-﻿using FreeCourse.Web.Models.Orders;
+﻿using FreeCourse.Shared.Dtos;
+using FreeCourse.Web.Models.Orders;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

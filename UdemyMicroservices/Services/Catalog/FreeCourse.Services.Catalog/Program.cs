@@ -28,6 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+#region RabbitMq
 
 builder.Services.AddMassTransit(x =>
 {
@@ -42,6 +43,8 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+#endregion
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.Authority = builder.Configuration["IdentityServerURL"];
@@ -51,6 +54,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IMessageQueueService, MessageQueueService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 
@@ -64,6 +68,8 @@ builder.Services.AddSingleton<IDatabaseSettings>(sp =>
 
 var app = builder.Build();
 
+#region SeedCourse
+
 using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
@@ -76,6 +82,9 @@ using (var scope = app.Services.CreateScope())
         await categoryService.CreateAsync(new CategoryDto { Name = "Asp.net Core API Kursu" });
     }
 }
+
+#endregion
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -36,5 +36,9 @@ namespace FreeCourse.Services.Catalog.Models.Courses
         [BsonIgnore]
         public Category Category { get; set; }
 
+        [BsonRepresentation(BsonType.Decimal128)]
+        public decimal CourseRate { get; set; }
+
+
     }
 }

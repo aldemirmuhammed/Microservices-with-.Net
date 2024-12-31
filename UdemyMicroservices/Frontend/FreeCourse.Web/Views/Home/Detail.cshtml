@@ -1,30 +1,98 @@
-﻿@{
+﻿@using FreeCourse.Web.Models.Catalogs.Course.CourseComment
+@using FreeCourse.Web.Services.Interfaces
+@{
     ViewData["Title"] = "Detail";
 }
 
 @model CourseViewModel
+@inject ICatalogService _catalogService
+<head>
+    <link href="~/css/comment_tabs.css" rel="stylesheet" />
 
-<div class="row">
-    <div class="col-md-9">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
-        <div class="card">
-            <img src="@Model.StockPictureUrl" class="card-img-top" />
-            <div class="card-body">
-                <h5 class="card-title">@Model.Name</h5>
-                <div class="badge bg-primary">Kategori : @Model.Category.Name</div>
-                <p class="card-text"> @Model.Description</p>
+</head>
+<div class="row" style="width:100%">
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-md-9">
+                @await Html.PartialAsync("~/Views/Courses/CourseDetail.cshtml", Model)
             </div>
-        </div>
-    </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Price : @Model.Price TL</h4>
 
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Fiyat : @Model.Price TL</h4>
-                <div class="d-grid">
-                    <a asp-controller="Basket" asp-action="AddBasketItem" asp-route-courseId="@Model.Id" class="btn btn-primary">Sepete ekle</a>
+                        <div class="d-grid">
+                            <a asp-controller="Basket" asp-action="AddBasketItem" asp-route-courseId="@Model.Id" class="btn btn-primary">Add Basket</a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
+
         </div>
-    </div>
+
+        <br />
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="row" style="margin-top:10%">
+
+                <section id="tabs">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 ">
+                                <nav>
+                                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Comment (@(Model.CourseCommentList != null ? Model.CourseCommentList.Count : 0))</a>
+                                        <a class="nav-item nav-link" id="nav-question-tab" data-toggle="tab" href="#nav-question" role="tab" aria-controls="nav-question" aria-selected="false">Questions&Answers (@(Model.CourseQuestionsList != null ? Model.CourseQuestionsList.Count : 0))</a>
+                                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false"></a>
+                                        <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false"></a>
+                                    </div>
+                                </nav>
+                                <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                        @await Html.PartialAsync("~/Views/Courses/Comment.cshtml", Model)
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-question" role="tabpanel" aria-labelledby="nav-question-tab">
+                                        @await Html.PartialAsync("~/Views/Courses/Question.cshtml", Model)
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
+                                    <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="row" style="margin-top:10%">
+                <div class="col-xs-12 ">
+
+                    @if (Model != null)
+                    {
+                        var list = await _catalogService.GetAllCourseAsync();
+                        if (list != null)
+                        {
+                            <p class="card-text">Same Courses</p>
+                            @* @await Html.PartialAsync("~/Views/Courses/CourseList.cshtml", list) *@
+
+                        }
+                    }
+                </div>
+            </div>
+
+        }
+    }
 </div>
+
+@section Scripts {
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+}
+

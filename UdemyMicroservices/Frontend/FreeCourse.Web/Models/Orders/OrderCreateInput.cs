@@ -12,6 +12,7 @@ namespace FreeCourse.Web.Models.Orders
             OrderItems = new List<OrderItemCreateInput>();
         }
         public string BuyerId { get; set; }
+        public string BuyerEmail { get; set; }
 
         public AddressCreateInput Address { get; set; }
 
